@@ -39,7 +39,7 @@ CUDA_VISIBLE_DEVICES=$gpu_num python train.py --port 601$gpu_num \
 # # No need to set save_memory, 24G is sufficient.
 # ###############################################
 scan="waldo_kitchen"
-gpu_num=1           # change
+gpu_num=0           # change
 echo "Training for ${scan} ....."
 CUDA_VISIBLE_DEVICES=$gpu_num python train.py --port 601$gpu_num \
     -s /gdata/cold1/wuyanmin/OpenGaussian/data/lerf_ovs/${scan} \
