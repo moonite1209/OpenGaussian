@@ -374,7 +374,8 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
 
         # gt supervision: rgb image & SAM mask
         gt_image = viewpoint_cam.original_image.cuda()
-        gt_sam_mask = viewpoint_cam.original_sam_mask.cuda()    # [4, H, W]
+        if viewpoint_cam.original_sam_mask is not None:
+            gt_sam_mask = viewpoint_cam.original_sam_mask.cuda()    # [4, H, W]
         
         # ##################################################
         # [Stage 0]: 0 to 3w steps, Standard 3DGS RGB loss #

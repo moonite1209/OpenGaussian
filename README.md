@@ -46,8 +46,7 @@ pip install ./ashawkey-diff-gaussian-rasterization
 
 ## 1. ToDo list
 
-+ [ ] Point feature visualization
-+ [ ] Waymo data
++ [x] ~~Point feature visualization~~
 + [ ] Data preprocessing
 + [ ] Improved SAM mask extraction (extracting only one layer)
 + [ ] Click to Select 3D Object
@@ -67,14 +66,7 @@ The files are as follows:
 |   |   |   |── *_vh_clean_2.labels.ply
 │   │   ├── scene0062_00/
 │   │   └── ...
-├── [2] waymo/
-│   │   ├── 11724067*****/
-|   |   |   |── images/
-|   |   |   |── language_features/
-|   |   |   |── sparse/
-│   │   ├── 10275144*****/
-│   │   └── ...
-├── [3] lerf_ovs/
+├── [2] lerf_ovs/
 │   │   ├── figurines/ & ramen/ & teatime/ & waldo_kitchen/
 |   |   |   |── images/
 |   |   |   |── language_features/
@@ -85,9 +77,7 @@ The files are as follows:
     + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139813&cid=744D3E86422BE3C9). Please unzip the `color.zip` and `language_features.zip` files.
     + The ScanNet dataset requires permission for use, following the [ScanNet instructions](https://github.com/ScanNet/ScanNet) to apply for dataset permission.
     + The preprocessing script will be updated later.
-+ **[2] Prepare Waymo Data**
-    + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139814&cid=744D3E86422BE3C9)
-+ **[3] Prepare lerf_ovs Data**
++ **[2] Prepare lerf_ovs Data**
     + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139815&cid=744D3E86422BE3C9) (re-annotated by LangSplat). Please unzip the `images.zip` and `language_features.zip` files.
 + **Mask and Language Feature Extraction Details**
     + We use the tools provided by LangSplat to extract the SAM mask and CLIP features, but we only use the large-level mask.
@@ -103,26 +93,31 @@ chmod +x scripts/train_scannet.sh
 + Please ***check*** the script for more details and ***modify*** the dataset path.
 + you will see the following processes during training:
     ```shell
-    [Stage 0] Start 3dgs pre-train ...
-    [Stage 1] Start continuous instance feature learning ...
-    [Stage 2.1] Start coarse-level codebook discretization ...
-    [Stage 2.2] Start fine-level codebook discretization ...
-    [Stage 3] Start 2D language feature - 3D cluster association ...
+    [Stage 0] Start 3dgs pre-train ... (step 0-30k)
+    [Stage 1] Start continuous instance feature learning ... (step 30-50k)
+    [Stage 2.1] Start coarse-level codebook discretization ... (step 50-70k)
+    [Stage 2.2] Start fine-level codebook discretization ... (step 70-90k)
+    [Stage 3] Start 2D language feature - 3D cluster association ... (1 min)
     ```
 + Intermediate results from different stages can be found in subfolders `***/train_process/stage*`. (The intermediate results of stage 3 are recommended to be observed in the LeRF dataset.)
 
-### 3.2 Waymo
-+ TODO
-
-### 3.3 LeRF_ovs
+### 3.2 LeRF_ovs
 ```shell
 chmod +x scripts/train_lerf.sh
 ./scripts/train_lerf.sh
 ```
 + Please ***check*** the script for more details and ***modify*** the dataset path.
++ you will see the following processes during training:
+    ```shell
+    [Stage 0] Start 3dgs pre-train ... (step 0-30k)
+    [Stage 1] Start continuous instance feature learning ... (step 30-40k)
+    [Stage 2.1] Start coarse-level codebook discretization ... (step 40-50k)
+    [Stage 2.2] Start fine-level codebook discretization ... (step 50-70k)
+    [Stage 3] Start 2D language feature - 3D cluster association ... (1 min)
+    ```
 + Intermediate results from different stages can be found in subfolders `***/train_process/stage*`.
 
-### 3.4 Custom data
+### 3.3 Custom data
 + TODO
 
 ---
@@ -130,14 +125,19 @@ chmod +x scripts/train_lerf.sh
 ## 4. Render & Eval & Downstream Tasks
 
 ### 4.1 3D Instance Feature Visualization
-+ TODO
++ Please install `open3d` first, and then execute the following command on a system with UI support:
+    ```python
+    python scripts/vis_opengs_pts_feat.py
+    ```
+    + Please specify `ply_path` in the script as the PLY file `output/xxxxxxxx-x/point_cloud/iteration_x0000/point_cloud.ply` saved at different stages.
+    + During the training process, we have saved the first three dimensions of the 6D features as colors for visualization; see [here](https://github.com/yanmin-wu/OpenGaussian/blob/2845b9c744c1b06ac6930ffa2d2a6f9167f1b843/scene/gaussian_model.py#L272).
 
 ### 4.2 Render 2D Feature Map
 + The same rendering method as the 3DGS rendering colors.
     ```shell
     python render.py -m "output/xxxxxxxx-x"
     ```
-    You can find the rendered feature maps in subfolders `renders_ins_feat1` and `renders_ins_feat1`.
+    You can find the rendered feature maps in subfolders `renders_ins_feat1` and `renders_ins_feat2`.
 
 ### 4.3 ScanNet Evalution (Open-Vocabulary Point Cloud Understanding)
 > Due to code optimization and the use of more suitable hyperparameters, the latest evaluation metrics may be higher than those reported in the paper. 

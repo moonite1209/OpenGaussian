@@ -8,11 +8,11 @@
 # 3. Please check the dataset path specified by -s.
 
 # ============== [Hyperparameter explanation] ==============
-# Total training steps: 9w
-# 3dgs pre-train: 0~3w
-# stage1: 3~5w
-# stage2 (coarse-level): 5~7w
-# stage2 (fine-level): 7~9w
+# Total training steps: 90k
+# 3dgs pre-train: 0~30k
+# stage1: 30~50k
+# stage2 (coarse-level): 50~70k
+# stage2 (fine-level): 70k~90k
 # k1=64, k2=5
 # frozen_init_pts: The point clouds provided by the ScanNet dataset are frozen, without using the densification scheme of 3DGS.
 # -r 2 : We use half-resolution data for training.

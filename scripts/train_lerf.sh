@@ -4,6 +4,12 @@
 
 # !!! Please check the dataset path specified by -s.
 
+# Total training steps: 70k
+# 3dgs pre-train: 0~30k
+# stage1: 30~40k
+# stage2 (coarse-level): 40~50k
+# stage2 (fine-level): 50k~70k
+
 # ###############################################
 # #              (1/4) figurines
 # # Training takes approximately 70 minutes on a 24G 4090 GPU.
