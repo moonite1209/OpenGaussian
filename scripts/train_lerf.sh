@@ -48,7 +48,7 @@ scan="waldo_kitchen"
 gpu_num=0           # change
 echo "Training for ${scan} ....."
 CUDA_VISIBLE_DEVICES=$gpu_num python train.py --port 601$gpu_num \
-    -s /gdata/cold1/wuyanmin/OpenGaussian/data/lerf_ovs/${scan} \
+    -s data/lerf/${scan} \
     --iterations 70_000 \
     --start_ins_feat_iter 30_000 \
     --start_root_cb_iter 40_000 \
