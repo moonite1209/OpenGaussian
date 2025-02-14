@@ -1,4 +1,7 @@
-# python==3.12
+# conda create --name opengaussian python=3.12 -c conda-forge
+# conda activate opengaussian
+# pip install torch==2.4.1+cu118 --extra-index-url https://download.pytorch.org/whl/cu118
+# pip install -r requirements.txt
 torch==2.4.1+cu118
 torchvision==0.19.1+cu118
 torchaudio==2.4.1+cu118
@@ -10,7 +13,8 @@ matplotlib
 transformers
 scikit-learn
 dearpygui
-bitarray
 scipy
+bitarray
 submodules/ashawkey-diff-gaussian-rasterization
+git+https://github.com/facebookresearch/pytorch3d.git@stable
 --extra-index-url https://download.pytorch.org/whl/cu118
